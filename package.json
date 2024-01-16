@@ -16,8 +16,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.2",
-    "sort-by": "^1.2.0",
-    "typescript": "^5.3.3"
+    "sort-by": "^1.2.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",

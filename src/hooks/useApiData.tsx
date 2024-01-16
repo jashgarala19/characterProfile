@@ -23,7 +23,7 @@ const useApiData = (endpoint: string): ApiResponse => {
       try {
         const result = await fetchData(endpoint, queryParams);
         console.log(result);
-        setApiData(result); // Set only the data property
+        setApiData(result);
         setError("");
       } catch (err) {
         if (err?.response?.data?.error) {
