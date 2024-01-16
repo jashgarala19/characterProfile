@@ -12,6 +12,7 @@ import FilterImage from "assets/filter.png";
 import CloseImage from "assets/close.png";
 import Accordion from "components/Accordion/Accordion";
 import FilterOptions from "components/FilterOptions/FilterOptions";
+import { useNavigate } from "react-router-dom";
 interface Filter {
   filterTitle: string;
   filterOptions: string[];
@@ -114,13 +115,24 @@ const HomePage = () => {
   const toggleDrawer = () => {
     setDrawerOpen(!isDrawerOpen);
   };
+  const navigate = useNavigate();
+  const handleCharacterClick = (id: string | number) => {
+    navigate(`/character/${id}`, {
+      state: id,
+    });
+  };
   return (
     <>
       <div className="p-5 relative  ">
         <div className=" mx-auto max-w-[80rem]   min-h-[calc(100vh_-_110px)] ">
           <div className="flex gap-3 flex-row ">
             <HomeFilterContainer filters={[genderFilter, statusFilter]} />
-            <HomeListContainer data={data} error={error} loading={loading} />
+            <HomeListContainer
+              data={data}
+              error={error}
+              loading={loading}
+              handleCharacterClick={handleCharacterClick}
+            />
           </div>
         </div>
       </div>

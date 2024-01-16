@@ -1,5 +1,7 @@
 import React from "react";
-import CharacterCard, { CharacterCardProps } from "components/CharacterCard/CharacterCard";
+import CharacterCard, {
+  CharacterCardProps,
+} from "components/CharacterCard/CharacterCard";
 import Input from "components/Input/Input";
 import Pagination from "components/Pagination/Pagination";
 import {
@@ -7,6 +9,7 @@ import {
   SearchCharacterContextProps,
 } from "context/SearchCharacterContext";
 import { useContext } from "react";
+import Loader from "components/Loader/Loader";
 
 interface SearchType {
   text: string;
@@ -61,12 +64,14 @@ interface HomeListContainerProps {
   } | null;
   error: string | null;
   loading: boolean;
+  handleCharacterClick: (id: number | string) => void;
 }
 
 const HomeListContainer: React.FC<HomeListContainerProps> = ({
   data,
   error,
   loading,
+  handleCharacterClick,
 }) => {
   const { searchValue, searchType, setSearchValue, setSearchType } = useContext(
     SearchCharacterContext
@@ -101,15 +106,17 @@ const HomeListContainer: React.FC<HomeListContainerProps> = ({
       <div className="flex flex-row justify-start gap-4 flex-wrap my-6 max-sm:flex-col max-sm:flex-nowrap max-sm:justify-center">
         {error ? (
           <div className="w-full min-h-[calc(100vh_-_220px)] flex flex-1 justify-center items-center">
-            <h2 className="text-primary text-4xl">{error}!!</h2>
+            <h2 className="text-primary text-4xl max-sm:text-sm">{error}!!</h2>
           </div>
         ) : loading ? (
-          <div className="w-full min-h-[calc(100vh_-_220px)] flex flex-1 justify-center items-center">
-            <h2 className="text-primary text-4xl">Loading...</h2>
-          </div>
+          <Loader />
         ) : (
-          data?.results?.map((item,index) => (
-            <CharacterCard key={index} character={item} />
+          data?.results?.map((item, index) => (
+            <CharacterCard
+              key={index}
+              character={item}
+              handleCharacterClick={handleCharacterClick}
+            />
           ))
         )}
       </div>

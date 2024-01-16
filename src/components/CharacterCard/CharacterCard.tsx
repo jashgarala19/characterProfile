@@ -1,4 +1,3 @@
-
 export interface CharacterCardProps {
   character: {
     gender: string;
@@ -11,7 +10,9 @@ export interface CharacterCardProps {
     };
     episode: string[];
     type?: string;
+    id: string | number;
   };
+  handleCharacterClick: (id: number | string) => void;
 }
 
 const statusColor: Record<string, string> = {
@@ -20,12 +21,18 @@ const statusColor: Record<string, string> = {
   Dead: "bg-primary",
 };
 
-const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
-  const { gender, name, status, species, image, location, episode, type } =
+const CharacterCard: React.FC<CharacterCardProps> = ({
+  character,
+  handleCharacterClick,
+}) => {
+  const { gender, name, status, species, image, location, episode, type, id } =
     character;
 
   return (
-    <div className="bg-white rounded-xl flex flex-row max:sm:h-auto w-[420px] max-sm:w-auto cursor-pointer max-sm:flex-col max-sm:flex-justify-center max-sm:flex-items-center max-sm:pt-3">
+    <div
+      className="bg-white rounded-xl flex flex-row max:sm:h-auto w-[420px] max-sm:w-auto cursor-pointer max-sm:flex-col max-sm:flex-justify-center max-sm:flex-items-center max-sm:pt-3"
+      onClick={() => handleCharacterClick(id)}
+    >
       <img
         src={image}
         className="rounded-l-xl max-sm:w-[200px] max-sm:m-auto max-sm:rounded-none max-sm:cover"

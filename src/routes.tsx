@@ -1,5 +1,6 @@
 import CurrentPageProvider from "context/PageContext";
 import SearchCharactersProvider from "context/SearchCharacterContext";
+import CharacterPage from "pages/CharacterPage/CharacterPage";
 import HomePage from "pages/HomePage/HomePage";
 import NotFoundPage from "pages/NotFoundPage/NotFoundPage";
 import { createBrowserRouter } from "react-router-dom";
@@ -19,6 +20,10 @@ const routes = [
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: `/character/:characterId`,
+        element: <CharacterPage />,
       },
     ],
   },
