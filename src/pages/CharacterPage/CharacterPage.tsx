@@ -52,6 +52,13 @@ const CharacterPage = () => {
   if (loading) {
     return <Loader />;
   }
+  if (error) {
+    return (
+      <div className="w-full min-h-[calc(100vh_-_220px)] flex flex-1 justify-center items-center">
+        <h2 className="text-primary text-4xl max-sm:text-sm">{error}!!</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="p-5 relative  ">
