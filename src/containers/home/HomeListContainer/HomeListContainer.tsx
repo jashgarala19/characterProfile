@@ -1,10 +1,8 @@
 import CharacterCard from "components/CharacterCard/CharacterCard";
-import Chip from "components/Chip/Chip";
 import Input from "components/Input/Input";
 import Pagination from "components/Pagination/Pagination";
-import { PageContext } from "context/PageContext";
 import { SearchCharacterContext } from "context/SearchCharacterContext";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 const searchTypes = [
   {
     text: "Name",

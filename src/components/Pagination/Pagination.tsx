@@ -1,27 +1,38 @@
+import { useContext, ChangeEvent } from "react";
 import { PageContext } from "context/PageContext";
-import React, { useContext, useEffect, useState } from "react";
 
-const PaginationLeftRightButton = ({
+interface PaginationLeftRightButtonProps {
+  text: string;
+  buttonHandler: () => void;
+  isDisabled?: boolean;
+}
+
+const PaginationLeftRightButton: React.FC<PaginationLeftRightButtonProps> = ({
   text,
-  buttonHanlder,
+  buttonHandler,
   isDisabled = false,
 }) => {
   return (
     <div
-      className="bg-primary cursor-pointer  px-4 py-2 "
-      onClick={() => (!isDisabled ? buttonHanlder() : null)}
+      className="bg-primary cursor-pointer px-4 py-2"
+      onClick={() => (!isDisabled ? buttonHandler() : null)}
     >
       <p className="text-white"> {text} </p>
     </div>
   );
 };
 
-const Pagination = ({ pages, totalCount, totalItemsCount }) => {
-  const { currentPage, setCurrentPage, pageRange, setPageRange } =
-    useContext(PageContext);
+interface PaginationProps {
+  pages: number;
+  totalCount: number;
+  totalItemsCount: number;
+}
 
-  if (pageRange == 0) {
-    return;
+const Pagination: React.FC<PaginationProps> = ({ pages, totalCount, totalItemsCount }) => {
+  const { currentPage, setCurrentPage, pageRange } = useContext(PageContext);
+
+  if (pageRange === 0) {
+    return null;
   }
 
   const handleNext = () => {
@@ -37,9 +48,9 @@ const Pagination = ({ pages, totalCount, totalItemsCount }) => {
     }
     setCurrentPage(currentPage - 1);
   };
-  const handleSelectOption = (e) => {
+
+  const handleSelectOption = (e: ChangeEvent<HTMLSelectElement>) => {
     const page = +e.target.value;
-    console.log(e.target.value);
     setCurrentPage(page);
   };
 
@@ -48,7 +59,7 @@ const Pagination = ({ pages, totalCount, totalItemsCount }) => {
       <PaginationLeftRightButton
         text="<"
         isDisabled={false}
-        buttonHanlder={handlePrevious}
+        buttonHandler={handlePrevious}
       />
 
       <select
@@ -56,25 +67,19 @@ const Pagination = ({ pages, totalCount, totalItemsCount }) => {
         onChange={handleSelectOption}
         value={currentPage}
       >
-        {(() => {
-          const a = [...Array(pages)].map((x, i) => {
-            return (
-              <option key={i} value={i + 1} className="  text-center">
-                {i + 1}
-              </option>
-            );
-          });
-
-          return a;
-        })()}
+        {Array.from({ length: pages }, (_, i) => (
+          <option key={i} value={i + 1} className="text-center">
+            {i + 1}
+          </option>
+        ))}
       </select>
 
       <PaginationLeftRightButton
         text=">"
         isDisabled={false}
-        buttonHanlder={handleNext}
+        buttonHandler={handleNext}
       />
-      <div className='flex items-center gap-2'>
+      <div className="flex items-center gap-2">
         <span className="inline-block">
           <p className="text-gray font-semibold text-md">Page {currentPage} </p>
         </span>

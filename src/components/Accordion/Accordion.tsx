@@ -1,12 +1,18 @@
-import Chip from "components/Chip/Chip";
-import React, { useState } from "react";
+import { useState, ReactNode } from "react";
 
-const Accordion = ({ children, title }) => {
+interface AccordionProps {
+  children: ReactNode;
+  title: string;
+}
+
+const Accordion: React.FC<AccordionProps> = ({ children, title }) => {
   const [open, setOpen] = useState(false);
-  const handleOpen = (e) => {
+
+  const handleOpen = (e: React.MouseEvent) => {
     e.stopPropagation();
     setOpen(!open);
   };
+
   return (
     <div className="bg-white p-3 w-full h-[auto] cursor-pointer">
       <div className="flex items-center " onClick={(e) => handleOpen(e)}>

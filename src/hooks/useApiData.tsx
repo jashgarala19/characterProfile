@@ -24,7 +24,7 @@ const useApiData = <T,>(
         const result = await fetchData<T>(endpoint, queryParams);
         console.log(result);
         setApiData(result);
-        setError('');
+        setError("");
       } catch (err) {
         if (err?.response?.data?.error) {
           setError(err?.response?.data?.error);

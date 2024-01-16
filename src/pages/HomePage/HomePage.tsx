@@ -3,7 +3,7 @@ import HomeListContainer from "containers/home/HomeListContainer/HomeListContain
 import { PageContext } from "context/PageContext";
 import { SearchCharacterContext } from "context/SearchCharacterContext";
 import useApiData from "hooks/useApiData";
-import useFilter, { createFilterState } from "hooks/useFilter";
+import  { createFilterState } from "hooks/useFilter";
 import { useContext, useEffect, useState } from "react";
 import FilterImage from "assets/filter.png";
 import CloseImage from "assets/close.png";

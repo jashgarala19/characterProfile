@@ -1,6 +1,5 @@
-import React from "react";
+
 import { Outlet } from "react-router-dom";
-import HeaderLogo from "../assets/Rick_and_Morty_header.png";
 
 const MainLayout = () => {
   return (
