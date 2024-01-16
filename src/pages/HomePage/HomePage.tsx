@@ -1,16 +1,22 @@
 import HomeFilterContainer from "containers/home/HomeFilterContainer/HomeFilterContainer";
 import HomeListContainer from "containers/home/HomeListContainer/HomeListContainer";
-import { PageContext } from "context/PageContext";
-import { SearchCharacterContext } from "context/SearchCharacterContext";
-import useApiData from "hooks/useApiData";
-import  { createFilterState } from "hooks/useFilter";
+import { PageContext, PageContextProps } from "context/PageContext";
+import {
+  SearchCharacterContext,
+  SearchCharacterContextProps,
+} from "context/SearchCharacterContext";
+import useApiData, { ApiResponse } from "hooks/useApiData";
+import { createFilterState } from "hooks/useFilter";
 import { useContext, useEffect, useState } from "react";
 import FilterImage from "assets/filter.png";
 import CloseImage from "assets/close.png";
 import Accordion from "components/Accordion/Accordion";
 import FilterOptions from "components/FilterOptions/FilterOptions";
+
+
 const HomePage = () => {
-  const { data, loading, error, refetch } = useApiData("character", {});
+  const { data, loading, error, refetch }: ApiResponse =
+    useApiData("character");
   const genderFilter = createFilterState({
     filterTitle: "Gender",
     filterOptions: ["male", "female", "genderless", "unknown"],
@@ -25,14 +31,19 @@ const HomePage = () => {
     isMultiSelect: false,
   });
 
-  const { searchValue, searchType } = useContext(SearchCharacterContext);
-  const { currentPage, setCurrentPage, setPageRange } = useContext(PageContext);
+  const { searchValue, searchType } = useContext(
+    SearchCharacterContext
+  ) as SearchCharacterContextProps;
+  const { currentPage, setCurrentPage, setPageRange } = useContext(
+    PageContext
+  ) as PageContextProps;
   useEffect(() => {
     setCurrentPage(1);
   }, [
     genderFilter.selectedFilterValues,
     statusFilter?.selectedFilterValues,
     searchValue,
+    setCurrentPage,
   ]);
   useEffect(() => {
     let status = statusFilter.selectedFilterValues;
@@ -53,6 +64,9 @@ const HomePage = () => {
     statusFilter?.selectedFilterValues,
     searchValue,
     currentPage,
+    setCurrentPage,
+    refetch,
+    searchType,
   ]);
 
   useEffect(() => {
@@ -83,6 +97,7 @@ const HomePage = () => {
     loading,
     data,
     error,
+    setPageRange,
   ]);
 
   const [isDrawerOpen, setDrawerOpen] = useState(false);

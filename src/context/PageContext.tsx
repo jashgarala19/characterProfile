@@ -1,16 +1,31 @@
-import { createContext, useState } from "react";
+import  { createContext, useState, ReactNode } from "react";
 
-export const PageContext = createContext();
+export interface PageContextProps {
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  pageRange: string;
+  setPageRange: React.Dispatch<React.SetStateAction<string>>;
+}
 
-const CurrentPageProvider = ({ children }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageRange, setPageRange] = useState("");
+export const PageContext = createContext<PageContextProps | undefined>(undefined);
+
+interface CurrentPageProviderProps {
+  children: ReactNode;
+}
+
+const CurrentPageProvider: React.FC<CurrentPageProviderProps> = ({ children }) => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageRange, setPageRange] = useState<string>("");
+
+  const contextValue: PageContextProps = {
+    currentPage,
+    setCurrentPage,
+    pageRange,
+    setPageRange,
+  };
+
   return (
-    <PageContext.Provider
-      value={{
-        currentPage,setCurrentPage,pageRange,setPageRange
-      }}
-    >
+    <PageContext.Provider value={contextValue}>
       {children}
     </PageContext.Provider>
   );

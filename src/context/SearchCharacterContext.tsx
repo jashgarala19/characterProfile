@@ -1,19 +1,31 @@
-import { createContext, useState } from "react";
+import { createContext, useState, ReactNode } from "react";
 
-export const SearchCharacterContext = createContext();
+export interface SearchCharacterContextProps {
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  searchType: string;
+  setSearchType: React.Dispatch<React.SetStateAction<string>>;
+}
 
-const SearchCharactersProvider = ({ children }) => {
-  const [searchValue, setSearchValue] = useState("");
-  const [searchType, setSearchType] = useState("name");
+export const SearchCharacterContext = createContext<SearchCharacterContextProps | undefined>(undefined);
+
+interface SearchCharactersProviderProps {
+  children: ReactNode;
+}
+
+const SearchCharactersProvider: React.FC<SearchCharactersProviderProps> = ({ children }) => {
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [searchType, setSearchType] = useState<string>("name");
+
+  const contextValue: SearchCharacterContextProps = {
+    searchValue,
+    setSearchValue,
+    searchType,
+    setSearchType,
+  };
+
   return (
-    <SearchCharacterContext.Provider
-      value={{
-        searchValue,
-        setSearchValue,
-        searchType,
-        setSearchType,
-      }}
-    >
+    <SearchCharacterContext.Provider value={contextValue}>
       {children}
     </SearchCharacterContext.Provider>
   );

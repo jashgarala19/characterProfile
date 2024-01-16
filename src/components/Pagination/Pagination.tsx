@@ -1,5 +1,5 @@
 import { useContext, ChangeEvent } from "react";
-import { PageContext } from "context/PageContext";
+import { PageContext, PageContextProps } from "context/PageContext";
 
 interface PaginationLeftRightButtonProps {
   text: string;
@@ -28,12 +28,10 @@ interface PaginationProps {
   totalItemsCount: number;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ pages, totalCount, totalItemsCount }) => {
-  const { currentPage, setCurrentPage, pageRange } = useContext(PageContext);
-
-  if (pageRange === 0) {
-    return null;
-  }
+const Pagination: React.FC<PaginationProps> = ({ pages, totalCount }) => {
+  const { currentPage, setCurrentPage, pageRange } = useContext(
+    PageContext
+  ) as PageContextProps;
 
   const handleNext = () => {
     if (currentPage >= pages) {

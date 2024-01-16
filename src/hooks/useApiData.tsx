@@ -1,29 +1,29 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { fetchData } from "services/apiService";
 
-interface ApiResponse<T> {
-  data: T | null;
+export interface ApiResponse {
+  data?: {
+    results?: object[];
+  };
   error: string;
   loading: boolean;
-  refetch: () => void;
+  refetch: (queryParams?: object) => void;
 }
 
-const useApiData = <T,>(
-  endpoint: string,
-  initialQueryParams: Record<string, any> = {}
-): ApiResponse<T> => {
-  const [apiData, setApiData] = useState<T | null>(null);
-  // const [queryParams, setQueryParams] = useState(initialQueryParams);
+const useApiData = (endpoint: string): ApiResponse => {
+  const [apiData, setApiData] = useState<{
+    results?: object[];
+  }>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   const fetchDataAndSetState = useCallback(
-    async (queryParams) => {
+    async (queryParams?: object) => {
       setLoading(true);
       try {
-        const result = await fetchData<T>(endpoint, queryParams);
+        const result = await fetchData(endpoint, queryParams);
         console.log(result);
-        setApiData(result);
+        setApiData(result); // Set only the data property
         setError("");
       } catch (err) {
         if (err?.response?.data?.error) {
@@ -39,19 +39,15 @@ const useApiData = <T,>(
     [endpoint]
   );
 
-  // useEffect(() => {
-  //   fetchDataAndSetState();
-  // }, [fetchDataAndSetState]);
-
   const refetch = useCallback(
-    (queryParams) => {
+    (queryParams?: object) => {
       fetchDataAndSetState(queryParams);
     },
     [fetchDataAndSetState]
   );
 
   return {
-    data: apiData!,
+    data: apiData,
     error,
     loading,
     refetch,

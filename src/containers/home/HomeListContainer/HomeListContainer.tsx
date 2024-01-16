@@ -1,7 +1,7 @@
 import CharacterCard from "components/CharacterCard/CharacterCard";
 import Input from "components/Input/Input";
 import Pagination from "components/Pagination/Pagination";
-import { SearchCharacterContext } from "context/SearchCharacterContext";
+import { SearchCharacterContext, SearchCharacterContextProps } from "context/SearchCharacterContext";
 import { useContext } from "react";
 const searchTypes = [
   {
@@ -32,7 +32,7 @@ const SearchTypeCard = ({ handleClick, text, isActive }) => {
 const HomeListContainer = ({ data, error, loading }) => {
   const { searchValue, searchType, setSearchValue, setSearchType } = useContext(
     SearchCharacterContext
-  );
+  ) as SearchCharacterContextProps;
 
   return (
     <div className="flex  flex-col  flex-1 ">

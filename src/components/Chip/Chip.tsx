@@ -1,7 +1,7 @@
 interface ChipProps {
   text: string;
   isActive?: boolean;
-  handleClick?: () => void;
+  handleClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 const Chip: React.FC<ChipProps> = ({ text, isActive = false, handleClick }) => {

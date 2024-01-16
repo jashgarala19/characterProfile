@@ -2,8 +2,8 @@ import Chip from "components/Chip/Chip";
 
 interface FilterOptionsProps {
   options: string[];
-  selectedFilter: string | null;
-  handleFilter: (e: React.MouseEvent<HTMLDivElement>, option: string) => void;
+  selectedFilter: string | null | string[];
+  handleFilter: (e: React.MouseEvent<HTMLDivElement>, option: string|string[]) => void;
 }
 
 const FilterOptions: React.FC<FilterOptionsProps> = ({

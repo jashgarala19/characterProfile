@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 
-export const useFilter = (initialValue) => {
-  const [filter, setFilter] = useState(initialValue);
+export const Filter = (
+  initialValue: string | string[] = ""
+): [string | string[], (e: MouseEvent, value: string) => void] => {
+  const [filter, setFilter] = useState<string | string[]>(initialValue);
 
-  const handleFilter = (e, value) => {
+  const handleFilter = (e: MouseEvent, value: string): void => {
     e.stopPropagation();
     if (Array.isArray(filter)) {
       // If the filter is an array, toggle the selected value
@@ -20,13 +22,20 @@ export const useFilter = (initialValue) => {
   return [filter, handleFilter];
 };
 
+interface FilterState {
+  filterTitle: string;
+  filterOptions: string[];
+  initialValue?: string | string[];
+  isMultiSelect?: boolean;
+}
+
 export const createFilterState = ({
   filterTitle,
   filterOptions,
-  initialValue,
-  isMultiSelect,
-}) => {
-  const [filter, handleFilter] = useFilter(initialValue);
+  initialValue = "",
+  isMultiSelect = false,
+}: FilterState) => {
+  const [filter, handleFilter] = Filter(initialValue);
 
   return {
     filterTitle,
@@ -36,4 +45,5 @@ export const createFilterState = ({
     isMultiSelect,
   };
 };
-export default useFilter;
+
+export default Filter;
