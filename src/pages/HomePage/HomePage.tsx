@@ -12,12 +12,21 @@ import FilterImage from "assets/filter.png";
 import CloseImage from "assets/close.png";
 import Accordion from "components/Accordion/Accordion";
 import FilterOptions from "components/FilterOptions/FilterOptions";
-
+interface Filter {
+  filterTitle: string;
+  filterOptions: string[];
+  selectedFilterValues: string | string[];
+  isMultiSelect: boolean;
+  filterHander?: (
+    e: React.MouseEvent<HTMLDivElement>,
+    selectedValues: string[] | string
+  ) => void;
+}
 
 const HomePage = () => {
   const { data, loading, error, refetch }: ApiResponse =
     useApiData("character");
-  const genderFilter = createFilterState({
+  const genderFilter: Filter = createFilterState({
     filterTitle: "Gender",
     filterOptions: ["male", "female", "genderless", "unknown"],
     initialValue: "",
@@ -147,7 +156,7 @@ const HomePage = () => {
                     <FilterOptions
                       options={filter.filterOptions}
                       selectedFilter={filter.selectedFilterValues}
-                      handleFilter={filter.filterHandler}
+                      handleFilter={filter?.filterHandler}
                     />
                   </Accordion>
                 );

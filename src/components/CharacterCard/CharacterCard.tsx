@@ -1,5 +1,5 @@
 
-interface CharacterCardProps {
+export interface CharacterCardProps {
   character: {
     gender: string;
     name: string;

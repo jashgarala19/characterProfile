@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { fetchData } from "services/apiService";
+import { AxiosError } from "axios";
 
 export interface ApiResponse {
   data?: {
@@ -13,7 +14,7 @@ export interface ApiResponse {
 const useApiData = (endpoint: string): ApiResponse => {
   const [apiData, setApiData] = useState<{
     results?: object[];
-  }>(null);
+  }>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
@@ -26,12 +27,17 @@ const useApiData = (endpoint: string): ApiResponse => {
         setApiData(result);
         setError("");
       } catch (err) {
-        if (err?.response?.data?.error) {
-          setError(err?.response?.data?.error);
+        if ((err as AxiosError)?.isAxiosError) {
+          console.error(
+            `API request error for ${endpoint} endpoint:`,
+            (err as AxiosError).message
+          );
+          setError(
+            (err as AxiosError).response?.data?.error || "Error fetching data"
+          );
         } else {
           setError("Error fetching data");
         }
-        console.error(err);
       } finally {
         setLoading(false);
       }
